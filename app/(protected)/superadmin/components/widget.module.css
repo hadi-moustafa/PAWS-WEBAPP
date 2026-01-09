@@ -1,0 +1,66 @@
+.widget {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 3rem;
+    background: white;
+    margin-bottom: 2rem;
+    animation: float 6s ease-in-out infinite;
+}
+
+.clockSection {
+    text-align: left;
+}
+
+.time {
+    font-size: 3rem;
+    margin: 0;
+    color: var(--primary);
+    text-shadow: 2px 2px 0px black;
+    line-height: 1;
+}
+
+.date {
+    font-size: 1.2rem;
+    color: #666;
+    margin: 0;
+    margin-top: 0.5rem;
+}
+
+.divider {
+    width: 4px;
+    height: 60px;
+    background-color: var(--border-color);
+    border-radius: 2px;
+    transform: rotate(15deg);
+}
+
+.weatherSection {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+}
+
+.temp {
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+.desc {
+    font-size: 1rem;
+    color: #666;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}

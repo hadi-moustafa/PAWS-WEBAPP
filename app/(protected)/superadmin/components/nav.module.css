@@ -1,0 +1,82 @@
+.navContainer {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    z-index: 100;
+}
+
+.boneBar {
+    background: white;
+    border: 3px solid var(--border-color);
+    box-shadow: 4px 4px 0px var(--border-color);
+    border-radius: 50px;
+    /* Rounded bone ends */
+    display: flex;
+    gap: 1rem;
+    padding: 0.5rem 2rem;
+    position: relative;
+    align-items: center;
+}
+
+/* Pseudo-elements to make it look more like a bone */
+.boneBar::before,
+.boneBar::after {
+    content: '';
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background: white;
+    border: 3px solid var(--border-color);
+    border-radius: 50%;
+    z-index: -1;
+}
+
+.boneBar::before {
+    left: -10px;
+    top: -10px;
+    box-shadow: 4px 4px 0px var(--border-color);
+}
+
+.boneBar::after {
+    right: -10px;
+    top: -10px;
+    box-shadow: 4px 4px 0px var(--border-color);
+}
+
+.navLink {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: var(--foreground);
+    font-weight: bold;
+    font-size: 0.9rem;
+    padding: 0.5rem;
+    border-radius: 12px;
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.navLink:hover {
+    transform: translateY(-5px) scale(1.1);
+    background: #FFF5E6;
+}
+
+.icon {
+    font-size: 1.5rem;
+    margin-bottom: 0.2rem;
+}
+
+.label {
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.7rem;
+}
+
+.active {
+    color: var(--primary);
+    /* background: var(--primary); 
+     color: white; */
+}

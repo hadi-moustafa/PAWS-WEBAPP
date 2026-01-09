@@ -1,0 +1,333 @@
+/* Colors */
+/* Orange: #FF9F1C, Pistachio: #b8e994, Navy: #2d3436, Alert: #ff7675 */
+/* Background: #f7f1e3 (Off-white) */
+
+/* Neo-Pop Utilities */
+.neoSection {
+    position: relative;
+    border-bottom: 4px solid black;
+    background: #fff;
+}
+
+.patternGrid {
+    background-color: #f7f1e3;
+    background-image: linear-gradient(#000000 1px, transparent 1px), linear-gradient(90deg, #000000 1px, transparent 1px);
+    background-size: 40px 40px;
+    background-position: -1px -1px;
+    /* Low opacity for the grid lines */
+    background-blend-mode: overlay;
+}
+
+.patternDots {
+    background-image: radial-gradient(black 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+.bentoGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.bentoCard {
+    background: white;
+    border: 4px solid black;
+    box-shadow: 8px 8px 0px black;
+    border-radius: 16px;
+    padding: 2rem;
+    transition: transform 0.2s;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.bentoCard:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: 12px 12px 0px black;
+}
+
+.sectionContainer {
+    /* Keeping for compatibility but BentoCard is preferred for grid items */
+    width: 90%;
+    max-width: 1000px;
+    background: white;
+    border: 4px solid black;
+    box-shadow: 8px 8px 0px #FF9F1C;
+    border-radius: 20px;
+    padding: 3rem;
+    margin-bottom: 3rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.sectionContainer:hover {
+    transform: translateY(-5px);
+    box-shadow: 12px 12px 0px #93C572;
+}
+
+
+/* Carousel */
+.carouselContainer {
+    width: 100%;
+    overflow: hidden;
+}
+
+.sectionTitle {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: #FF9F1C;
+    text-shadow: 2px 2px 0px black;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.carouselTrack {
+    display: flex;
+    gap: 2rem;
+    width: max-content;
+    animation: scroll 20s linear infinite;
+    padding-left: 2rem;
+}
+
+.petCard {
+    width: 250px;
+    height: 320px;
+    background: white;
+    flex-shrink: 0;
+    border-radius: 16px;
+    border: 3px solid black;
+    box-shadow: 6px 6px 0px #93C572;
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.petCard:hover {
+    transform: translateY(-10px) rotate(2deg);
+    box-shadow: 8px 8px 0px #FF9F1C;
+}
+
+.petImageContainer {
+    position: relative;
+    width: 100%;
+    height: 65%;
+    border-bottom: 3px solid black;
+    background: #f0f0f0;
+}
+
+.petInfo {
+    padding: 1rem;
+    text-align: center;
+    background: #fff;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.adoptedBadge {
+    display: inline-block;
+    background: #FF9F1C;
+    color: black;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 900;
+    margin-top: 0.5rem;
+    border: 2px solid black;
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+/* About Section */
+.aboutContent {
+    text-align: center;
+    color: black;
+}
+
+.aboutContent h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #FF9F1C;
+    text-shadow: 2px 2px 0px black;
+}
+
+.aboutContent p {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    margin-bottom: 0;
+    font-weight: 500;
+}
+
+/* Stats */
+.stats {
+    display: flex;
+    justify-content: space-around;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.statItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem;
+    background: #FF9F1C;
+    border: 3px solid black;
+    box-shadow: 4px 4px 0px black;
+    color: black;
+    min-width: 150px;
+    transition: all 0.2s;
+}
+
+.statItem:nth-child(2) {
+    background: #93C572;
+}
+
+.statItem:nth-child(3) {
+    background: white;
+}
+
+.statItem:hover {
+    transform: scale(1.05) rotate(-2deg);
+}
+
+.statNumber {
+    font-size: 2.5rem;
+    font-weight: 900;
+}
+
+.statLabel {
+    font-size: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* FooterStyles */
+.footer {
+    width: 90%;
+    max-width: 1000px;
+    background: white;
+    color: black;
+    padding: 2rem;
+    text-align: center;
+    border: 4px solid black;
+    box-shadow: 8px 8px 0px #FF9F1C;
+    border-radius: 20px;
+    margin-bottom: 2rem;
+}
+
+.socials {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.socialLink {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    background: white;
+    color: black;
+    border-radius: 50%;
+    border: 3px solid black;
+    box-shadow: 4px 4px 0px #93C572;
+    transition: all 0.2s ease;
+}
+
+.socialLink:hover {
+    transform: scale(1.1) rotate(10deg);
+    box-shadow: 6px 6px 0px #FF9F1C;
+    background: #FF9F1C;
+}
+
+.footerText {
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+/* Floating Animation */
+.floating {
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+/* Scroll Reveal Animations */
+.revealHidden {
+    opacity: 0;
+    transform: translateY(40px) scale(0.95);
+    transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+    /* "Hefty" Bounce */
+}
+
+.revealVisible {
+    opacity: 1;
+    transform: translateY(0px) scale(1);
+}
+
+.revealStagger>* {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease-out;
+}
+
+.revealStagger.revealVisible>*:nth-child(1) {
+    transition-delay: 0.1s;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.revealStagger.revealVisible>*:nth-child(2) {
+    transition-delay: 0.2s;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.revealStagger.revealVisible>*:nth-child(3) {
+    transition-delay: 0.3s;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.revealStagger.revealVisible>*:nth-child(4) {
+    transition-delay: 0.4s;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.revealStagger.revealVisible>*:nth-child(5) {
+    transition-delay: 0.5s;
+    opacity: 1;
+    transform: translateY(0);
+}
