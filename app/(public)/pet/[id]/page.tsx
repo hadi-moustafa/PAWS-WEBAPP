@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import Image from 'next/image'
-import Link from 'next/link'
+
 import { notFound } from 'next/navigation'
 
 async function getPet(id: string) {
@@ -64,28 +64,20 @@ export default async function PublicPetPage({ params }: { params: Promise<{ id: 
                     {pet.description || "I'm a mystery wrapped in a riddle, searching for a forever home!"}
                 </p>
 
-                <div style={{ textAlign: 'left', marginBottom: '2rem' }}>
-                    <h3 style={{ borderBottom: '2px solid black', paddingBottom: '0.5rem', marginBottom: '1rem' }}>📍 Current Location</h3>
-                    <p style={{ fontSize: '1.1rem', fontWeight: 'bold' }}>
-                        {pet.location || 'Shelter Main Branch'}
-                    </p>
-                </div>
+                <div style={{ textAlign: 'left', marginBottom: '2rem', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                    <div>
+                        <h3 style={{ borderBottom: '2px solid black', paddingBottom: '0.5rem', marginBottom: '1rem' }}>📍 Location</h3>
+                        <p style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>
+                            {pet.location || 'Shelter Main Branch'}
+                        </p>
+                    </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                    <Link href="/login" className="neopop-button" style={{
-                        display: 'block',
-                        padding: '1rem',
-                        background: '#55efc4',
-                        color: 'black',
-                        textDecoration: 'none',
-                        fontWeight: '900',
-                        fontSize: '1.2rem',
-                        border: '3px solid black',
-                        boxShadow: '4px 4px 0px black',
-                        borderRadius: '8px'
-                    }}>
-                        🏠 ADOPT ME!
-                    </Link>
+                    <div>
+                        <h3 style={{ borderBottom: '2px solid black', paddingBottom: '0.5rem', marginBottom: '1rem' }}>📞 Contact</h3>
+                        <p style={{ fontSize: '1.5rem', fontWeight: '900', color: '#2d3436' }}>
+                            {pet.owner?.phone || 'No contact info available'}
+                        </p>
+                    </div>
                 </div>
             </div>
 
