@@ -9,41 +9,22 @@
 }
 
 .boneBar {
-    background: white;
-    border: 3px solid var(--border-color);
-    box-shadow: 4px 4px 0px var(--border-color);
+    background: #FF9F1C;
+    /* Orange background */
+    border: 3px solid black;
+    box-shadow: 6px 6px 0px black;
     border-radius: 50px;
-    /* Rounded bone ends */
     display: flex;
-    gap: 1rem;
-    padding: 0.5rem 2rem;
+    gap: 1.5rem;
+    padding: 0.8rem 2.5rem;
     position: relative;
     align-items: center;
 }
 
-/* Pseudo-elements to make it look more like a bone */
+/* Removed bone pseudos to make it cleaner but still punchy */
 .boneBar::before,
 .boneBar::after {
-    content: '';
-    position: absolute;
-    width: 40px;
-    height: 40px;
-    background: white;
-    border: 3px solid var(--border-color);
-    border-radius: 50%;
-    z-index: -1;
-}
-
-.boneBar::before {
-    left: -10px;
-    top: -10px;
-    box-shadow: 4px 4px 0px var(--border-color);
-}
-
-.boneBar::after {
-    right: -10px;
-    top: -10px;
-    box-shadow: 4px 4px 0px var(--border-color);
+    display: none;
 }
 
 .navLink {
@@ -51,32 +32,42 @@
     flex-direction: column;
     align-items: center;
     text-decoration: none;
-    color: var(--foreground);
-    font-weight: bold;
+    color: white;
+    font-weight: 900;
     font-size: 0.9rem;
-    padding: 0.5rem;
-    border-radius: 12px;
-    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    padding: 0.6rem 1rem;
+    border-radius: 16px;
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 2px solid transparent;
+    /* Prevent layout shift */
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .navLink:hover {
-    transform: translateY(-5px) scale(1.1);
-    background: #FFF5E6;
+    transform: translateY(-8px) rotate(-3deg);
+    background: #FFFBE6;
+    color: black;
+    border: 2px solid black;
+    box-shadow: 4px 4px 0px black;
 }
 
 .icon {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     margin-bottom: 0.2rem;
+    filter: drop-shadow(2px 2px 0px rgba(0, 0, 0, 0.2));
 }
 
 .label {
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    font-size: 0.7rem;
+    letter-spacing: 1px;
+    font-size: 0.75rem;
 }
 
 .active {
-    color: var(--primary);
-    /* background: var(--primary); 
-     color: white; */
+    background: #93C572;
+    /* Pistachio */
+    color: black;
+    transform: translateY(-12px) scale(1.1);
+    border: 2px solid black;
+    box-shadow: 4px 4px 0px black;
 }

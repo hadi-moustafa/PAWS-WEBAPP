@@ -29,8 +29,8 @@ export async function createEmergencyAppointment() {
     // 2. Create Emergency Appointment (Immediate)
     const { error: apptError } = await supabase.from('Appointment').insert({
         date: new Date().toISOString(),
-        status: 'CONFIRMED', // Auto-confirm emergency
         type: 'Emergency',
+        bookingReason: 'Emergency Intake',
         userId: user.id, // Vet is the "user" context here? Or should it be the pet owner? 
         // For stray emergency, we might leave owner null or set to organization. 
         // Schema requires userId. We'll use the vet (admin) as the "requester" for now or a system user.

@@ -1,5 +1,6 @@
 import { login } from './actions'
 import styles from './login.module.css'
+import Scene3D from './components/Scene3D'
 
 export default async function LoginPage({
     searchParams,
@@ -10,10 +11,14 @@ export default async function LoginPage({
     const errorMessage = params.error;
 
     return (
-        <div className={styles.container}>
-            <div className={`${styles.card} neopop-card`}>
+        <div className={styles.container} style={{ background: '#7bed9f', overflow: 'hidden' }}>
+            <div style={{ position: 'fixed', inset: 0, zIndex: 0 }}>
+                <Scene3D />
+            </div>
+
+            <div className={`${styles.card} neopop-card`} style={{ zIndex: 10, position: 'relative' }}>
                 <h1 className={styles.title}>Staff Login</h1>
-                <p className={styles.subtitle}>Enter your credentials to access the command center.</p>
+                <p className={styles.subtitle}>Enter your credentials as the ducklings watch.</p>
 
                 <form className={styles.form}>
                     <div className={styles.inputGroup}>

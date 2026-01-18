@@ -18,11 +18,11 @@ export default function Footer() {
             </div>
 
             <div style={{ marginBottom: '1.5rem' }}>
-                <p style={{ margin: 0, fontWeight: 'bold' }}>Done with ❤️ by PAWS Team</p>
+                <p style={{ margin: 0, fontWeight: 'bold', color: 'white' }}>Done with ❤️ by PAWS Team</p>
                 <LiveClock />
             </div>
 
-            <p className={styles.footerText} style={{ fontSize: '0.8rem' }}>
+            <p className={styles.footerText} style={{ fontSize: '0.8rem', color: 'white' }}>
                 © {new Date().getFullYear()} PAWS Shelter. All rights reserved. <br />
                 Don't shop, Adopt!
             </p>

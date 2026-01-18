@@ -3,19 +3,23 @@
     background: white;
     border-radius: 12px;
     overflow: hidden;
-    transition: transform 0.2s;
+    transition: transform 0.2s, box-shadow 0.2s;
     display: flex;
     flex-direction: column;
+    border: 3px solid black;
+    box-shadow: 6px 6px 0px black;
 }
 
 .card:hover {
-    transform: translateY(-5px);
+    transform: translate(-2px, -2px);
+    box-shadow: 8px 8px 0px black;
 }
 
 .imageContainer {
-    height: 200px;
+    height: 240px;
     background: #f0f0f0;
     position: relative;
+    border-bottom: 3px solid black;
 }
 
 .image {
@@ -28,37 +32,46 @@
     position: absolute;
     top: 10px;
     right: 10px;
-    background: white;
-    padding: 4px 8px;
+    background: #55efc4;
+    /* Mint */
+    padding: 6px 12px;
     border-radius: 20px;
     font-size: 0.8rem;
-    font-weight: bold;
-    border: 2px solid black;
-    box-shadow: 2px 2px 0px black;
+    font-weight: 900;
+    border: 3px solid black;
+    box-shadow: 3px 3px 0px black;
+    text-transform: uppercase;
+    color: black;
+    z-index: 2;
 }
 
 .info {
-    padding: 1rem;
+    padding: 1.2rem;
     flex: 1;
 }
 
 .name {
     margin: 0;
-    font-size: 1.4rem;
-    color: var(--primary);
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: black;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .meta {
-    color: #666;
-    font-size: 0.9rem;
+    color: #333;
+    font-size: 0.95rem;
     margin-top: 0.2rem;
+    font-weight: bold;
 }
 
 .actions {
     padding: 1rem;
-    border-top: 2px solid #eee;
+    border-top: 3px solid black;
     display: flex;
-    gap: 0.5rem;
+    gap: 0.8rem;
+    background: #fdfdfd;
 }
 
 /* Adopted State */

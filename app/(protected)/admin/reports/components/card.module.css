@@ -1,0 +1,68 @@
+.card {
+    position: relative;
+    background: #FFEFD5;
+    /* PapayaWhip */
+    border: 3px solid black;
+    border-radius: 0 12px 12px 12px;
+    box-shadow: 6px 6px 0px black;
+    padding: 1.5rem;
+    margin-top: 20px;
+    /* Space for the tab */
+    transition: transform 0.2s;
+    display: flex;
+    flex-direction: column;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.folderTab {
+    position: absolute;
+    top: -23px;
+    left: -3px;
+    /* Align with border */
+    background: #FFEFD5;
+    height: 25px;
+    width: 120px;
+    border-top: 3px solid black;
+    border-left: 3px solid black;
+    border-right: 3px solid black;
+    border-radius: 12px 12px 0 0;
+    display: flex;
+    align-items: center;
+    padding-left: 1rem;
+    font-weight: 900;
+    font-size: 0.8rem;
+    color: black;
+    z-index: 1;
+    /* Above background */
+}
+
+/* Hide bottom border of tab to merge with body */
+.folderTab::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    /* Cover the border */
+    background: #FFEFD5;
+}
+
+.image {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border: 3px solid black;
+    border-radius: 8px;
+    margin: 1rem 0;
+    background: white;
+}
+
+.actions {
+    margin-top: auto;
+    display: flex;
+    gap: 0.5rem;
+}

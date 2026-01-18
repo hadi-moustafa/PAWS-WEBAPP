@@ -64,8 +64,12 @@ export default function AppointmentForm({ vets, pets }: Props) {
                         <h2 style={{ marginTop: 0, marginBottom: '1.5rem', fontSize: '1.8rem', textAlign: 'center' }}>📅 Book Appointment</h2>
 
                         <form action={async (formData) => {
-                            await createAppointment(formData)
-                            setIsOpen(false)
+                            try {
+                                await createAppointment(formData)
+                                setIsOpen(false)
+                            } catch (error: any) {
+                                alert(error.message)
+                            }
                         }} style={{ display: 'grid', gap: '1.2rem' }}>
 
                             <div>
@@ -107,6 +111,11 @@ export default function AppointmentForm({ vets, pets }: Props) {
                                     <option value="Surgery">Surgery</option>
                                     <option value="Dental">Dental</option>
                                 </select>
+                            </div>
+
+                            <div>
+                                <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '0.5rem' }}>Booking Reason</label>
+                                <textarea name="bookingReason" className="neopop-input" style={{ width: '100%', padding: '0.8rem', minHeight: '80px' }} placeholder="Optional reason..." />
                             </div>
 
                             <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
