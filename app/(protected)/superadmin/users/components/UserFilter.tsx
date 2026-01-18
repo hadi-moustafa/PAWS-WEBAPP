@@ -25,14 +25,14 @@ export default function UserFilter() {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [isPending, startTransition] = useTransition()
 
-    const [search, setSearch] = useState(searchParams.get('search') || '')
-    const [role, setRole] = useState(searchParams.get('role') || 'all')
+    const [search, setSearch] = useState(searchParams?.get('search') || '')
+    const [role, setRole] = useState(searchParams?.get('role') || 'all')
 
     const debouncedSearch = useDebounce(search, 300)
 
     const handleFilterUpdate = useCallback((currentSearch: string, currentRole: string) => {
         startTransition(() => {
-            const params = new URLSearchParams(searchParams)
+            const params = new URLSearchParams(searchParams?.toString())
             if (currentSearch) params.set('search', currentSearch)
             else params.delete('search')
 
@@ -46,14 +46,14 @@ export default function UserFilter() {
     // Effect for Search (Debounced)
     useEffect(() => {
         // Only trigger if the value actually differs from URL to avoid loop on initial load
-        if (debouncedSearch !== (searchParams.get('search') || '')) {
+        if (debouncedSearch !== (searchParams?.get('search') || '')) {
             handleFilterUpdate(debouncedSearch, role)
         }
     }, [debouncedSearch, handleFilterUpdate, role, searchParams])
 
     // Effect for Role (Immediate)
     useEffect(() => {
-        if (role !== (searchParams.get('role') || 'all')) {
+        if (role !== (searchParams?.get('role') || 'all')) {
             handleFilterUpdate(debouncedSearch, role)
         }
     }, [role, debouncedSearch, handleFilterUpdate, searchParams])

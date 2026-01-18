@@ -9,7 +9,7 @@ export default function PetFilters({ uniqueBreeds }: { uniqueBreeds: string[] })
     const { replace } = useRouter()
 
     const handleSearch = useDebouncedCallback((term: string) => {
-        const params = new URLSearchParams(searchParams)
+        const params = new URLSearchParams(searchParams?.toString())
         if (term) {
             params.set('q', term)
         } else {
@@ -19,7 +19,7 @@ export default function PetFilters({ uniqueBreeds }: { uniqueBreeds: string[] })
     }, 300)
 
     const handleFilter = (key: string, value: string) => {
-        const params = new URLSearchParams(searchParams)
+        const params = new URLSearchParams(searchParams?.toString())
         if (value && value !== 'All') {
             params.set(key, value)
         } else {
@@ -29,14 +29,14 @@ export default function PetFilters({ uniqueBreeds }: { uniqueBreeds: string[] })
     }
 
     const handleClear = () => {
-        const params = new URLSearchParams(searchParams)
+        const params = new URLSearchParams(searchParams?.toString())
         params.delete('q')
         params.delete('type')
         params.delete('breed')
         replace(`${pathname}?${params.toString()}`)
     }
 
-    const hasFilters = searchParams.has('q') || searchParams.has('type') || searchParams.has('breed')
+    const hasFilters = searchParams?.has('q') || searchParams?.has('type') || searchParams?.has('breed')
 
     return (
         <div className="neopop-card" style={{
@@ -51,7 +51,7 @@ export default function PetFilters({ uniqueBreeds }: { uniqueBreeds: string[] })
             <div style={{ flex: 1, minWidth: '200px' }}>
                 <label style={{ fontWeight: 'bold', display: 'block', marginBottom: '0.3rem' }}>🔍 Search Name</label>
                 <input
-                    defaultValue={searchParams.get('q')?.toString()}
+                    defaultValue={searchParams?.get('q')?.toString()}
                     onChange={(e) => handleSearch(e.target.value)}
                     placeholder="e.g. Barnaby"
                     className="neopop-input"
@@ -62,7 +62,7 @@ export default function PetFilters({ uniqueBreeds }: { uniqueBreeds: string[] })
             <div style={{ minWidth: '150px' }}>
                 <label style={{ fontWeight: 'bold', display: 'block', marginBottom: '0.3rem' }}>Type</label>
                 <select
-                    defaultValue={searchParams.get('type')?.toString()}
+                    defaultValue={searchParams?.get('type')?.toString()}
                     onChange={(e) => handleFilter('type', e.target.value)}
                     className="neopop-input"
                     style={{ width: '100%', border: '2px solid black' }}
@@ -77,7 +77,7 @@ export default function PetFilters({ uniqueBreeds }: { uniqueBreeds: string[] })
             <div style={{ minWidth: '150px' }}>
                 <label style={{ fontWeight: 'bold', display: 'block', marginBottom: '0.3rem' }}>Breed</label>
                 <select
-                    defaultValue={searchParams.get('breed')?.toString()}
+                    defaultValue={searchParams?.get('breed')?.toString()}
                     onChange={(e) => handleFilter('breed', e.target.value)}
                     className="neopop-input"
                     style={{ width: '100%', border: '2px solid black' }}

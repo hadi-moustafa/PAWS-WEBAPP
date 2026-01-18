@@ -9,7 +9,7 @@ export default function PatientSearch() {
     const { replace } = useRouter()
 
     const handleSearch = useDebouncedCallback((term) => {
-        const params = new URLSearchParams(searchParams)
+        const params = new URLSearchParams(searchParams?.toString())
         if (term) {
             params.set('query', term)
         } else {
@@ -25,7 +25,7 @@ export default function PatientSearch() {
                 className="neopop-input"
                 placeholder="Search by name, breed, or ID..."
                 onChange={(e) => handleSearch(e.target.value)}
-                defaultValue={searchParams.get('query')?.toString()}
+                defaultValue={searchParams?.get('query')?.toString()}
                 style={{ width: '100%', fontSize: '1.2rem' }}
             />
         </div>
