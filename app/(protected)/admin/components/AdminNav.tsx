@@ -59,6 +59,11 @@ export default function AdminNav() {
                             <span className={styles.icon}>📅</span>
                             <span className={styles.label}>Schedule</span>
                         </Link>
+
+                        <Link href="/admin/settings" className={`${styles.navLink} ${isActive('/admin/settings') ? styles.active : ''}`}>
+                            <span className={styles.icon}>⚙️</span>
+                            <span className={styles.label}>Settings</span>
+                        </Link>
                     </nav>
                 )}
 
