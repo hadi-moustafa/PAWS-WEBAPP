@@ -117,7 +117,7 @@ export async function pushSchedule(appointmentId: number) {
         const { error: updateError } = await supabase
             .from('Appointment')
             .update({
-                date: newDate.toISOString(),
+                // date: newDate.toISOString(), // REMOVED: Keep original date
                 updatedDate: newDate.toISOString() // Set updatedDate to the new appointment time
             })
             .eq('id', appt.id)

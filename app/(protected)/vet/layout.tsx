@@ -26,7 +26,29 @@ export default async function VetLayout({ children }: { children: React.ReactNod
             {/* Top Bar */}
             <header style={{ background: '#74b9ff', padding: '1rem', borderBottom: '3px solid black' }}>
                 <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <h2 style={{ fontSize: '1.5rem', fontWeight: '900', color: 'white', textShadow: '2px 2px 0px black' }}>PAWS <span style={{ fontSize: '1rem', background: 'white', color: 'black', padding: '2px 8px', borderRadius: '12px', border: '2px solid black' }}>VET</span></h2>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                        <h2 style={{ fontSize: '1.5rem', fontWeight: '800', color: 'white', textShadow: '2px 2px 0px black', margin: 0 }}>PAWS</h2>
+                        <div style={{
+                            width: '50px',
+                            height: '50px',
+                            background: 'white',
+                            borderRadius: '50%',
+                            border: '2px solid black',
+                            overflow: 'hidden',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            animation: 'bob 2s infinite ease-in-out'
+                        }}>
+                            <img src="/images/cat-doctor.png" alt="Vet" style={{ width: '90%', height: '90%', objectFit: 'contain' }} />
+                        </div>
+                        <style>{`
+                            @keyframes bob {
+                                0%, 100% { transform: translateY(0); }
+                                50% { transform: translateY(-5px); }
+                            }
+                        `}</style>
+                    </div>
                     <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
                         <form action="/auth/signout" method="post">
                             <button className="neopop-button" style={{ padding: '0.4rem 0.8rem', fontSize: '0.8rem' }}>Sign Out</button>

@@ -3,6 +3,8 @@ import Image from 'next/image'
 
 import { notFound } from 'next/navigation'
 
+export const dynamic = 'force-dynamic'
+
 async function getPet(id: string) {
     const supabase = await createClient()
     const { data: pet } = await supabase.from('Pet').select('*, owner:User(*)').eq('id', id).single()
@@ -16,6 +18,9 @@ export default async function PublicPetPage({ params }: { params: Promise<{ id: 
     if (!pet) {
         notFound()
     }
+
+    // Normalize location for comparison
+    const isMainShelter = pet.location?.trim().toLowerCase() === 'main shelter'
 
     return (
         <div style={{ padding: '2rem', maxWidth: '600px', margin: '0 auto' }}>
@@ -68,14 +73,14 @@ export default async function PublicPetPage({ params }: { params: Promise<{ id: 
                     <div>
                         <h3 style={{ borderBottom: '2px solid black', paddingBottom: '0.5rem', marginBottom: '1rem' }}>📍 Location</h3>
                         <p style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>
-                            {pet.location || 'Shelter Main Branch'}
+                            {isMainShelter ? '(Ansar Pet Shelter)' : (pet.location || 'Shelter Main Branch')}
                         </p>
                     </div>
 
                     <div>
                         <h3 style={{ borderBottom: '2px solid black', paddingBottom: '0.5rem', marginBottom: '1rem' }}>📞 Contact</h3>
                         <p style={{ fontSize: '1.5rem', fontWeight: '900', color: '#2d3436' }}>
-                            {pet.owner?.phone || 'No contact info available'}
+                            +961 81 069 178
                         </p>
                     </div>
                 </div>

@@ -36,9 +36,14 @@ export default function SuperAdminNav() {
                             <span className={styles.label}>Base</span>
                         </Link>
 
-                        <Link href="/superadmin/finance" className={`${styles.navLink} ${isActive('/superadmin/finance') ? styles.active : ''}`}>
+                        <Link href="/superadmin/finance" className={`${styles.navLink} ${isActive('/superadmin/finance') && !isActive('/superadmin/finance/donations') ? styles.active : ''}`}>
                             <span className={styles.icon}>🦴</span>
                             <span className={styles.label}>Funds</span>
+                        </Link>
+
+                        <Link href="/superadmin/finance/donations" className={`${styles.navLink} ${isActive('/superadmin/finance/donations') ? styles.active : ''}`}>
+                            <span className={styles.icon}>🍪</span>
+                            <span className={styles.label}>Jar</span>
                         </Link>
                     </nav>
                 )}

@@ -15,6 +15,7 @@ import { pushSchedule, updateAppointment, deleteAppointment } from '../actions'
 type Appointment = {
     id: number
     date: string
+    updatedDate?: string
     type: string
     bookingReason?: string
     vet?: { name: string }
@@ -27,19 +28,23 @@ export default function AppointmentCalendar({ appointments }: { appointments: Ap
     const [isEditing, setIsEditing] = useState(false)
     const [editForm, setEditForm] = useState({ date: '', time: '' })
 
-    const events = appointments.map(apt => ({
-        start: new Date(apt.date),
-        end: moment(apt.date).add(1, 'hours').toDate(), // Assuming 1 hour duration
-        title: `${apt.type} - ${apt.pet?.name || 'Unknown Pet'}`,
-        resource: apt
-    }))
+    const events = appointments.map(apt => {
+        const effectiveDate = apt.updatedDate ? new Date(apt.updatedDate) : new Date(apt.date)
+        return {
+            start: effectiveDate,
+            end: moment(effectiveDate).add(1, 'hours').toDate(), // Assuming 1 hour duration
+            title: `${apt.type} - ${apt.pet?.name || 'Unknown Pet'} ${apt.updatedDate && apt.updatedDate !== apt.date ? '⚠️' : ''}`,
+            resource: apt
+        }
+    })
 
     const handleSelectEvent = (event: any) => {
         setSelectedAppointment(event.resource)
         setIsEditing(false) // Reset edit mode
+        const effectiveDate = event.resource.updatedDate || event.resource.date
         setEditForm({
-            date: moment(event.resource.date).format('YYYY-MM-DD'),
-            time: moment(event.resource.date).format('HH:mm')
+            date: moment(effectiveDate).format('YYYY-MM-DD'),
+            time: moment(effectiveDate).format('HH:mm')
         })
     }
 
@@ -215,11 +220,18 @@ export default function AppointmentCalendar({ appointments }: { appointments: Ap
                                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                                     <div>
                                         <label style={{ fontWeight: 'bold', display: 'block', color: '#666', marginBottom: '0.2rem' }}>Date</label>
-                                        <div>{moment(selectedAppointment.date).format('MMMM Do YYYY')}</div>
+                                        <div>{moment(selectedAppointment.updatedDate || selectedAppointment.date).format('MMMM Do YYYY')}</div>
                                     </div>
                                     <div>
                                         <label style={{ fontWeight: 'bold', display: 'block', color: '#666', marginBottom: '0.2rem' }}>Time</label>
-                                        <div>{moment(selectedAppointment.date).format('h:mm A')}</div>
+                                        <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: selectedAppointment.updatedDate && selectedAppointment.updatedDate !== selectedAppointment.date ? '#e74c3c' : 'inherit' }}>
+                                            {moment(selectedAppointment.updatedDate || selectedAppointment.date).format('h:mm A')}
+                                        </div>
+                                        {selectedAppointment.updatedDate && selectedAppointment.updatedDate !== selectedAppointment.date && (
+                                            <div style={{ fontSize: '0.9rem', color: '#e74c3c', marginTop: '0.2rem', background: '#fadbd8', padding: '0.2rem 0.5rem', borderRadius: '4px', display: 'inline-block' }}>
+                                                ⚠️ Postponed (Was {moment(selectedAppointment.date).format('h:mm A')})
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             )}
