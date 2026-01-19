@@ -4,6 +4,8 @@ import moment from 'moment'
 
 import VetDashboardListeners from './components/VetDashboardListeners'
 
+export const dynamic = 'force-dynamic'
+
 export default async function VetDashboard() {
     const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()
@@ -91,7 +93,10 @@ export default async function VetDashboard() {
                             <tbody>
                                 {emergencyAppointments.map((apt) => (
                                     <tr key={apt.id} style={{ borderBottom: '1px solid #dfe6e9' }}>
-                                        <td style={{ padding: '1rem', fontWeight: 'bold', color: '#d63031' }}>{moment(apt.date).format('h:mm A')}</td>
+                                        <td style={{ padding: '1rem', fontWeight: 'bold', color: '#d63031' }}>
+                                            {moment(apt.updatedDate || apt.date).format('h:mm A')}
+                                            {apt.updatedDate && apt.updatedDate !== apt.date && <div style={{ fontSize: '0.8rem' }}>(Updated)</div>}
+                                        </td>
                                         <td style={{ padding: '1rem' }}>
                                             <div style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>{apt.pet?.name}</div>
                                             <div style={{ fontSize: '0.9rem', color: '#636e72' }}>{apt.pet?.breed}</div>
@@ -153,8 +158,11 @@ export default async function VetDashboard() {
                             {standardAppointments.map((apt) => (
                                 <tr key={apt.id} style={{ borderBottom: '1px solid #b2bec3' }}>
                                     <td style={{ padding: '1.5rem 2rem', verticalAlign: 'top' }}>
-                                        <div style={{ fontWeight: '900', fontSize: '1.2rem' }}>{moment(apt.date).format('h:mm')}</div>
-                                        <div style={{ fontSize: '0.9rem', color: '#636e72', textTransform: 'uppercase' }}>{moment(apt.date).format('A')}</div>
+                                        <div style={{ fontWeight: '900', fontSize: '1.2rem' }}>{moment(apt.updatedDate || apt.date).format('h:mm')}</div>
+                                        <div style={{ fontSize: '0.9rem', color: '#636e72', textTransform: 'uppercase' }}>{moment(apt.updatedDate || apt.date).format('A')}</div>
+                                        {apt.updatedDate && apt.updatedDate !== apt.date && (
+                                            <div style={{ color: '#d63031', fontSize: '0.8rem', fontWeight: 'bold' }}>Postponed</div>
+                                        )}
                                     </td>
                                     <td style={{ padding: '1.5rem 2rem', verticalAlign: 'top' }}>
                                         <div style={{ fontWeight: 'bold', fontSize: '1.2rem', marginBottom: '0.2rem' }}>{apt.pet?.name}</div>
