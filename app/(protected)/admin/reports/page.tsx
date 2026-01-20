@@ -1,19 +1,14 @@
 import { createClient } from '@/lib/supabase/server'
 import ReportCard from './components/ReportCard'
-import { getPendingPets } from '@/app/actions/reports'
+import { getPendingPets, getReports } from './actions'
 import PetApprovalCard from './components/PetApprovalCard'
+import AdoptionManager from './components/AdoptionManager'
 
 export default async function ReportsPage() {
-    const supabase = await createClient()
+    // 1. Fetch Reports
+    const reports = await getReports()
 
-    // Fetch OPEN or IN_PROGRESS tickets
-    const { data: tickets } = await supabase
-        .from('Ticket')
-        .select('*')
-        .in('status', ['OPEN', 'IN_PROGRESS'])
-        .order('createdAt', { ascending: false })
-
-    // Fetch Pending Pets
+    // 2. Fetch Pending Pets
     const pendingPets = await getPendingPets();
 
     return (
@@ -33,6 +28,9 @@ export default async function ReportsPage() {
                     📋 CASE FILES
                 </h1>
             </div>
+
+            {/* Adoption Manager Section */}
+            <AdoptionManager />
 
             {/* Pet Approvals Section */}
             {pendingPets.length > 0 && (
@@ -65,19 +63,33 @@ export default async function ReportsPage() {
                 </div>
             )}
 
-            {/* Existing Tickets Section */}
+            {/* Reports Section */}
             <div style={{ marginBottom: '2rem' }}>
-                <h2 style={{ fontSize: '1.5rem', fontWeight: '900', marginBottom: '1.5rem', textTransform: 'uppercase', textShadow: '2px 2px 0px #ddd' }}>
-                    User Reports & Tickets
-                </h2>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem' }}>
+                    <h2 style={{ fontSize: '1.5rem', fontWeight: '900', margin: 0, textTransform: 'uppercase', textShadow: '2px 2px 0px #ddd' }}>
+                        User Reports & Issues
+                    </h2>
+                    <span style={{
+                        background: '#e17055',
+                        color: 'white',
+                        fontWeight: 'bold',
+                        padding: '0.2rem 0.6rem',
+                        borderRadius: '12px',
+                        border: '2px solid black',
+                        fontSize: '0.9rem'
+                    }}>
+                        {reports?.length || 0} Total
+                    </span>
+                </div>
+
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '2.5rem' }}>
-                    {tickets?.map((ticket) => (
-                        <ReportCard key={ticket.id} ticket={ticket} />
+                    {reports?.map((report) => (
+                        <ReportCard key={report.id} report={report} />
                     ))}
                 </div>
             </div>
 
-            {tickets?.length === 0 && pendingPets.length === 0 && (
+            {reports?.length === 0 && pendingPets.length === 0 && (
                 <div className="neopop-card" style={{ padding: '2rem', textAlign: 'center', background: 'white', border: '3px dashed black' }}>
                     <p style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>No active reports or pending approvals! Good job. 🎉</p>
                 </div>

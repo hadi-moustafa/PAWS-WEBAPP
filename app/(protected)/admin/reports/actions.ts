@@ -3,76 +3,130 @@
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 
-export async function convertTicketToPet(ticketId: number, formData: FormData) {
-    const supabase = await createClient()
+// --- REPORTS ---
 
-    // We need to fetch the ticket first to get the image URL
-    const { data: ticket, error: fetchError } = await supabase
-        .from('Ticket')
+export async function getReports() {
+    const supabase = await createClient()
+    const { data: reports, error } = await supabase
+        .from('Report')
+        .select(`
+            *,
+            User:userId (
+                name,
+                email
+            )
+        `)
+        .order('createdAt', { ascending: false })
+
+    if (error) {
+        console.error('Error fetching reports:', error)
+        return []
+    }
+
+    return reports
+}
+
+export async function updateReportStatus(reportId: string, status: string) {
+    const supabase = await createClient()
+    const { error } = await supabase
+        .from('Report')
+        .update({ status, updatedAt: new Date().toISOString() })
+        .eq('id', reportId)
+
+    if (error) {
+        console.error('Error updating report status:', error)
+        throw new Error('Failed to update report status')
+    }
+
+    revalidatePath('/admin/reports')
+}
+
+// --- PET APPROVAL ---
+
+export async function getPendingPets() {
+    const supabase = await createClient()
+    // Assuming 'Pending' is the status for pets waiting approval
+    // The user's schema check constraint says: 'Stray','Pending','Adopted','Rejected'
+    const { data: pets, error } = await supabase
+        .from('Pet')
         .select('*')
-        .eq('id', ticketId)
-        .single()
+        .eq('status', 'Pending')
+        .order('createdAt', { ascending: false })
 
-    if (fetchError || !ticket) {
-        console.error('Ticket fetch failed', fetchError)
-        return
+    if (error) {
+        console.error('Error fetching pending pets:', error)
+        return []
     }
-
-    const { data: { user } } = await supabase.auth.getUser()
-
-    // Create the Pet
-    const { data: newPet, error: createError } = await supabase.from('Pet').insert({
-        name: formData.get('name') as string || 'Unknown Stray',
-        type: formData.get('type') as string || 'Other',
-        breed: 'Unknown',
-        age: 1, // Default estimate
-        location: ticket.location_name || 'Shelter Intake',
-        description: `Stray report #${ticket.id}: ${ticket.subject}. Converted from user report.`,
-        images: ticket.imageUrl ? [ticket.imageUrl] : [],
-        status: 'Stray',
-        ownerId: user?.id,
-        // We could link back to ticket here if we add a column, but for now we link ticket to pet
-    })
-        .select()
-        .single()
-
-    if (createError) {
-        console.error('Pet creation failed', createError)
-        return
-    }
-
-    // Update Ticket to Closed + Link Pet
-    const { error: updateError } = await supabase.from('Ticket').update({
-        status: 'CLOSED',
-        convertedPetId: newPet.id
-    }).eq('id', ticketId)
-
-    if (updateError) console.error('Ticket update failed', updateError)
-
-    revalidatePath('/admin/reports')
-    revalidatePath('/admin/pets') // Update pets list too
+    return pets
 }
 
-export async function closeTicket(ticketId: number) {
+export async function updatePetStatus(petId: number, status: 'Stray' | 'Adopted' | 'Rejected', ownerId?: string) {
     const supabase = await createClient()
-    await supabase.from('Ticket').update({ status: 'CLOSED' }).eq('id', ticketId)
+
+    const updateData: any = { status }
+    if (status === 'Adopted' && ownerId) {
+        updateData.ownerId = ownerId
+        updateData.adoptedAt = new Date().toISOString()
+    } else if (status === 'Stray') {
+        // Ensure ownerId is null or shelter account if needed, but for now we might leave it or set to null
+        // If the pet was submitted by a user, maybe we keep them as owner? 
+        // Or if it's becoming a 'Shelter Stray', we might clear it. 
+        // Based on user request "stray to make him a stray animal", usually implies shelter ownership.
+        // For now, let's NOT clear ownerId automatically unless requested, 
+        // BUT if it was a user submission, they might still be the 'finder'.
+        // However, 'Stray' status usually means available for adoption.
+        // Let's assume no change to ownerId is needed for Stray unless specified.
+    }
+
+    const { error } = await supabase
+        .from('Pet')
+        .update(updateData)
+        .eq('id', petId)
+
+    if (error) {
+        console.error('Error updating pet status:', error)
+        throw new Error('Failed to update pet status')
+    }
+
     revalidatePath('/admin/reports')
+    revalidatePath('/admin/pets')
 }
 
-export async function sendMessage(ticketId: number, content: string) {
+// --- USER SEARCH ---
+
+export async function searchUsers(query: string) {
+    if (!query || query.length < 2) return []
+
     const supabase = await createClient()
-    const { data: { user } } = await supabase.auth.getUser()
+    const { data: users, error } = await supabase
+        .from('User')
+        .select('id, name, email')
+        .or(`name.ilike.%${query}%,email.ilike.%${query}%`)
+        .limit(5)
 
-    if (!user) throw new Error('Unauthorized')
+    if (error) {
+        console.error('Error searching users:', error)
+        return []
+    }
 
-    const { error } = await supabase.from('Message').insert({
-        ticketId,
-        senderId: user.id,
-        content,
-        type: 'TEXT',
-        isRead: false,
-        createdAt: new Date().toISOString()
-    })
+    return users
+}
 
-    if (error) throw new Error(error.message)
+export async function searchStrayPets(query: string) {
+    if (!query || query.length < 2) return []
+
+    const supabase = await createClient()
+    const { data: pets, error } = await supabase
+        .from('Pet')
+        .select('*')
+        .eq('status', 'Stray')
+        .or(`name.ilike.%${query}%,breed.ilike.%${query}%`)
+        .limit(5)
+
+    if (error) {
+        console.error('Error searching stray pets:', error)
+        return []
+    }
+
+    return pets
 }

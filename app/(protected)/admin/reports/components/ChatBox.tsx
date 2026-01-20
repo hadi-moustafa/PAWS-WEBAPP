@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { createClient } from '@/lib/supabase/client'
-import { sendMessage } from '../actions'
+import { sendMessage } from '../[id]/actions'
 import styles from './chat.module.css'
 
 type Message = {
