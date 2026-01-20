@@ -69,7 +69,7 @@ export default function ReportCard({ report, onDismiss }: { report: Report, onDi
                         e.stopPropagation();
                         // Ask for confirmation if needed, or just dismiss
                         if (confirm("Hide this report? It won't persist in the database, just hide from view.")) {
-                            handleDismiss()
+                            onDismiss()
                         }
                     }}
                     style={{
