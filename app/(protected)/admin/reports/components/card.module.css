@@ -24,7 +24,8 @@
     /* Align with border */
     background: #FFEFD5;
     height: 25px;
-    width: 120px;
+    width: 160px;
+    white-space: nowrap;
     border-top: 3px solid black;
     border-left: 3px solid black;
     border-right: 3px solid black;

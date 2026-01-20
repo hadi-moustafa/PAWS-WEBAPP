@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import ReportCard from './components/ReportCard'
 import { getPendingPets, getReports } from './actions'
+import ReportsFeed from './components/ReportsFeed'
 import PetApprovalCard from './components/PetApprovalCard'
 import AdoptionManager from './components/AdoptionManager'
 
@@ -64,30 +65,7 @@ export default async function ReportsPage() {
             )}
 
             {/* Reports Section */}
-            <div style={{ marginBottom: '2rem' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem' }}>
-                    <h2 style={{ fontSize: '1.5rem', fontWeight: '900', margin: 0, textTransform: 'uppercase', textShadow: '2px 2px 0px #ddd' }}>
-                        User Reports & Issues
-                    </h2>
-                    <span style={{
-                        background: '#e17055',
-                        color: 'white',
-                        fontWeight: 'bold',
-                        padding: '0.2rem 0.6rem',
-                        borderRadius: '12px',
-                        border: '2px solid black',
-                        fontSize: '0.9rem'
-                    }}>
-                        {reports?.length || 0} Total
-                    </span>
-                </div>
-
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '2.5rem' }}>
-                    {reports?.map((report) => (
-                        <ReportCard key={report.id} report={report} />
-                    ))}
-                </div>
-            </div>
+            <ReportsFeed initialReports={reports || []} />
 
             {reports?.length === 0 && pendingPets.length === 0 && (
                 <div className="neopop-card" style={{ padding: '2rem', textAlign: 'center', background: 'white', border: '3px dashed black' }}>

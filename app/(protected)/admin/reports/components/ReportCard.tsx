@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { updateReportStatus } from '../actions'
 import styles from './card.module.css'
 
@@ -18,8 +18,14 @@ type Report = {
     }
 }
 
-export default function ReportCard({ report }: { report: Report }) {
+export default function ReportCard({ report, onDismiss }: { report: Report, onDismiss: () => void }) {
     const [isLoading, setIsLoading] = useState(false)
+    const [formattedDate, setFormattedDate] = useState('')
+
+    useEffect(() => {
+        setFormattedDate(new Date(report.createdAt).toLocaleDateString() + ' ' + new Date(report.createdAt).toLocaleTimeString())
+    }, [report.createdAt])
+
     // Local state for optimistic update feeling
     const status = report.status
 
@@ -51,9 +57,34 @@ export default function ReportCard({ report }: { report: Report }) {
             <div className={styles.folderTab} style={{
                 background: getStatusColor(status),
                 color: 'black',
-                borderColor: 'black'
+                borderColor: 'black',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                paddingRight: '0.5rem'
             }}>
-                {status.toUpperCase()}
+                <span>{status.toUpperCase()}</span>
+                <button
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        // Ask for confirmation if needed, or just dismiss
+                        if (confirm("Hide this report? It won't persist in the database, just hide from view.")) {
+                            handleDismiss()
+                        }
+                    }}
+                    style={{
+                        background: 'transparent',
+                        border: 'none',
+                        cursor: 'pointer',
+                        fontSize: '1rem',
+                        fontWeight: 'bold',
+                        color: 'black',
+                        padding: '0 0.3rem',
+                    }}
+                    title="Dismiss Report"
+                >
+                    ✕
+                </button>
             </div>
 
             <div style={{ marginTop: '1.5rem' }}>
@@ -83,7 +114,7 @@ export default function ReportCard({ report }: { report: Report }) {
                     color: '#666'
                 }}>
                     <p style={{ margin: 0 }}><strong>Reporter:</strong> {report.User?.name || report.User?.email || 'Unknown'}</p>
-                    <p style={{ margin: 0 }}><strong>Date:</strong> {new Date(report.createdAt).toLocaleDateString()} {new Date(report.createdAt).toLocaleTimeString()}</p>
+                    <p style={{ margin: 0 }}><strong>Date:</strong> {formattedDate}</p>
                 </div>
             </div>
 
