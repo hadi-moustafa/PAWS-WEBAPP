@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { deletePet } from '../actions'
 import styles from './card.module.css'
 import Link from 'next/link'
@@ -21,37 +21,10 @@ type Pet = {
 export default function PetCard({ pet }: { pet: Pet }) {
     const isAdopted = pet.status === 'Adopted'
     const [showQR, setShowQR] = useState(false)
-    const [timeLeft, setTimeLeft] = useState('')
-    const [expired, setExpired] = useState(false)
 
     // ... (useEffect remains same)
 
-    useEffect(() => {
-        if (!isAdopted || !pet.adoptedAt) return
 
-        const adoptedDate = new Date(pet.adoptedAt).getTime()
-        const expireDate = adoptedDate + (30 * 24 * 60 * 60 * 1000) // 30 Days
-
-        const tick = () => {
-            const now = new Date().getTime()
-            const diff = expireDate - now
-
-            if (diff <= 0) {
-                setExpired(true)
-                return
-            }
-
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24))
-            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
-            setTimeLeft(`${days}d ${hours}h left`)
-        }
-
-        tick()
-        const timer = setInterval(tick, 60000) // Update every minute
-        return () => clearInterval(timer)
-    }, [isAdopted, pet.adoptedAt])
-
-    if (expired) return null // Hide from view if expired
 
     return (
         <>
@@ -75,11 +48,7 @@ export default function PetCard({ pet }: { pet: Pet }) {
             )}
 
             <div className={`neopop-card ${styles.card} ${isAdopted ? styles.adopted : ''}`}>
-                {isAdopted && (
-                    <div className={styles.timer}>
-                        ⏳ Disappearing in: {timeLeft}
-                    </div>
-                )}
+
 
                 <div className={styles.imageContainer}>
                     <span className={styles.badge}>

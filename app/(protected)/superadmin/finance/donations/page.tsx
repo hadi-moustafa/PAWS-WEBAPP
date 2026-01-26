@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
-import DonationJar from './DonationJar'
+import DonationAnalytics from './DonationAnalytics'
 
 export default async function DonationsPage() {
     const supabase = await createClient()
@@ -12,5 +12,5 @@ export default async function DonationsPage() {
         .order('createdAt', { ascending: false })
         .limit(50)
 
-    return <DonationJar initialDonations={donations || []} />
+    return <DonationAnalytics initialDonations={donations || []} />
 }

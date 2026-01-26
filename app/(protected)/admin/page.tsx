@@ -11,7 +11,7 @@ export default async function AdminDashboard() {
     // Open Reports
     const { data: reports } = await supabase.from('Ticket').select('*').eq('status', 'OPEN').limit(5)
     // Total Pets
-    const { count: petCount } = await supabase.from('Pet').select('*', { count: 'exact', head: true })
+    const { count: petCount } = await supabase.from('Pet').select('*', { count: 'exact', head: true }).eq('status', 'Stray')
     // Pending Pets
     const { data: pendingPets, count: pendingPetCount } = await supabase
         .from('Pet')
