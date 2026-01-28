@@ -9,6 +9,7 @@ export default function ChangePasswordForm() {
 
     const handleSubmit = (formData: FormData) => {
         setMessage(null)
+        const currentPassword = formData.get('currentPassword') as string
         const password = formData.get('password') as string
         const confirmPassword = formData.get('confirmPassword') as string
 
@@ -23,7 +24,7 @@ export default function ChangePasswordForm() {
         }
 
         startTransition(async () => {
-            const result = await updatePassword(password)
+            const result = await updatePassword(password, currentPassword)
             if (result.error) {
                 setMessage({ type: 'error', text: result.error })
             } else {
@@ -63,6 +64,17 @@ export default function ChangePasswordForm() {
             )}
 
             <form id="change-password-form" action={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginTop: '1.5rem' }}>
+                <div>
+                    <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '0.5rem' }}>Current Password</label>
+                    <input
+                        type="password"
+                        name="currentPassword"
+                        required
+                        className="neopop-input"
+                        style={{ width: '100%', padding: '0.8rem', border: '2px solid black', borderRadius: '8px', fontSize: '1rem' }}
+                    />
+                </div>
+
                 <div>
                     <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '0.5rem' }}>New Password</label>
                     <input

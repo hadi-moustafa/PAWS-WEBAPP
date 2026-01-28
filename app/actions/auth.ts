@@ -9,8 +9,24 @@ export async function logout() {
     redirect('/')
 }
 
-export async function updatePassword(password: string) {
+export async function updatePassword(password: string, currentPassword: string) {
     const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+
+    if (!user || !user.email) {
+        return { error: 'User not authenticated' }
+    }
+
+    // Verify current password
+    const { error: signInError } = await supabase.auth.signInWithPassword({
+        email: user.email,
+        password: currentPassword
+    })
+
+    if (signInError) {
+        return { error: 'Incorrect current password' }
+    }
+
     const { error } = await supabase.auth.updateUser({
         password: password
     })

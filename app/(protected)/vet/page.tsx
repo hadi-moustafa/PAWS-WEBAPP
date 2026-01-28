@@ -51,7 +51,7 @@ export default async function VetDashboard() {
                 alignItems: 'center'
             }}>
                 <div>
-                    <h1 style={{ margin: 0, fontSize: '2rem' }}>👨‍⚕️ Dr. {user.user_metadata?.name || 'Veterinarian'}</h1>
+                    <h1 style={{ margin: 0, fontSize: '2rem' }}>👨‍⚕️ {user.user_metadata?.name || 'Veterinarian'}</h1>
                     <p style={{ margin: '0.5rem 0 0', color: '#636e72' }}>{moment().format('dddd, MMMM Do YYYY')}</p>
                 </div>
 
