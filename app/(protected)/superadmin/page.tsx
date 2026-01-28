@@ -115,20 +115,7 @@ export default function SuperAdminDashboard() {
                             </div>
                         </Link>
 
-                        <div className="action-card" style={{
-                            background: 'white',
-                            border: '3px solid black',
-                            padding: '1.5rem',
-                            borderRadius: '12px',
-                            boxShadow: '5px 5px 0px black',
-                            height: '100%',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            borderStyle: 'dashed'
-                        }}>
-                            <span style={{ color: '#aaa', fontWeight: 'bold' }}>More soon...</span>
-                        </div>
+
                     </div>
                 </div>
 

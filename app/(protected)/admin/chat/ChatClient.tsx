@@ -337,7 +337,7 @@ export default function ChatClient({ initialUsers, adminId }: { initialUsers: Ch
                             </div>
                             <div className={styles.statusIndicator} style={{ color: isConnected ? '#2ecc71' : '#e74c3c' }}>
                                 <div className={styles.statusDot} style={{ background: isConnected ? '#2ecc71' : '#e74c3c' }} />
-                                {isConnected ? 'Online' : 'Reconnecting...'}
+
                             </div>
                         </div>
 

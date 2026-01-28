@@ -48,7 +48,7 @@ export default function WeatherClock() {
                 <small style={{ color: '#888', fontSize: '0.8rem' }}>Beirut, LB</small>
             </div>
 
-            <div className={styles.divider}></div>
+
 
             <div className={styles.weatherSection}>
                 {weather ? (

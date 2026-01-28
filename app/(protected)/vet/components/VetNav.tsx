@@ -39,6 +39,11 @@ export default function VetNav() {
                             <span className={styles.icon}>📅</span>
                             <span className={styles.label}>Schedule</span>
                         </Link>
+
+                        <Link href="/vet/settings" className={`${styles.navLink} ${isActive('/vet/settings') ? styles.active : ''}`}>
+                            <span className={styles.icon}>⚙️</span>
+                            <span className={styles.label}>Settings</span>
+                        </Link>
                     </nav>
                 )}
 
