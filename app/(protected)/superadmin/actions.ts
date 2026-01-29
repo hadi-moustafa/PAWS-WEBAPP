@@ -14,22 +14,52 @@ export async function createStaffUser(formData: FormData) {
 
     // 1. Create User in Auth (trigger will handle public.User creation, assuming it works)
     // We pass password in metadata as well just in case the trigger needs it as per previous fix
-    const { error } = await supabaseAdmin.auth.admin.createUser({
+    const { data: authData, error } = await supabaseAdmin.auth.admin.createUser({
         email,
         password,
         email_confirm: true,
         user_metadata: {
             role,
             name,
-            password // Passing for trigger compatibility
+            password
         }
     })
 
     if (error) {
         console.error('Create User Error:', error)
-        // In a real app, we'd return state to display error
         redirect('/superadmin/users/create?error=' + encodeURIComponent(error.message))
     }
+
+    // Validate role explicitly as per requirements
+    let finalRole = 'User'
+    console.log('Incoming role from form:', role) // Debug log
+
+    if (role === 'Vet') {
+        finalRole = 'Vet'
+    } else if (role === 'Admin') {
+        finalRole = 'Admin'
+    }
+    console.log('Final determined role:', finalRole) // Debug log
+
+    if (authData.user) {
+        // Use UPSERT to handle potential race conditions with Supabase triggers.
+        const { error: dbError } = await supabaseAdmin
+            .from('User')
+            .upsert({
+                id: authData.user.id,
+                email: email,
+                name: name,
+                role: finalRole
+            }, { onConflict: 'id' })
+
+        if (dbError) {
+            console.error('Database Upsert Error:', dbError)
+            // If DB update fails, we must notify the user or retry
+            throw new Error(`Failed to save user role: ${dbError.message}`)
+        }
+    }
+
+
 
     revalidatePath('/superadmin/users')
     redirect('/superadmin/users')

@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
 import UserFilter from './components/UserFilter'
 import { deleteUser } from './actions'
+import DeleteUserButton from './components/DeleteUserButton'
 
 // Define the shape of searchParams (Next.js 13/14 convention)
 // Define the shape of searchParams (Next.js 15+ convention: it's a Promise)
@@ -144,26 +145,7 @@ export default async function StaffListPage(props: Props) {
                                 </button>
                             </Link>
 
-                            <form action={async () => {
-                                'use server'
-                                await deleteUser(user.id)
-                            }} style={{ flex: 1 }}>
-                                <button className="neopop-button" type="submit" style={{
-                                    width: '100%',
-                                    padding: '0.5rem',
-                                    fontSize: '0.9rem',
-                                    background: '#FF6B6B', // Red
-                                    color: 'black',
-                                    border: '2px solid black',
-                                    fontWeight: 'bold',
-                                    cursor: 'pointer'
-                                }}
-                                // Simple confirm for safety
-                                // Note: In a real app we might use a modal, but confirm() works for basic needs
-                                >
-                                    🗑️ DELETE
-                                </button>
-                            </form>
+                            <DeleteUserButton userId={user.id} />
                         </div>
                     </div>
                 ))}
